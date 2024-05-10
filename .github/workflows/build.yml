@@ -48,10 +48,6 @@ jobs:
           plugin_lines_history_limit: 1
           plugin_lines_repositories_limit: 4
           plugin_lines_sections: base
-          plugin_stock: yes
-          plugin_stock_duration: max
-          plugin_stock_interval: 1d
-          plugin_stock_symbol: NVDA
           plugin_topics: yes
           plugin_topics_limit: 15
           plugin_topics_mode: icons
