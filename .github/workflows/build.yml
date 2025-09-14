@@ -2,27 +2,28 @@
 name: Metrics
 on:
   # Schedule updates (each hour)
-  schedule: [{cron: "0 * * * *"}]
+  schedule: [{cron: "0 17 * * 6"}]
   # Lines below let you run workflow manually and on each commit
   workflow_dispatch:
   push: {branches: ["master", "main"]}
+
 jobs:
   github-metrics:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write        # ให้สิทธิ์ push/commit ไฟล์ผลลัพธ์
+      issues: read           # (แนะนำ) ถ้าปลั๊กอินอ่าน Issues ด้วย
+      pull-requests: read    # (แนะนำ) ถ้าปลั๊กอินอ่าน PR ด้วย
+      packages: read         # (แนะนำ) ถ้าดึงข้อมูล packages
     steps:
       - uses: lowlighter/metrics@latest
         with:
-          # Your GitHub token
-          # The following scopes are required:
-          #  - public_access (default scope)
-          # The following additional scopes may be required:
-          #  - read:org      (for organization related metrics)
-          #  - read:user     (for user related data)
-          #  - read:packages (for some packages related data)
-          #  - repo          (optional, if you want to include private repositories)
+          # ใช้ PAT ของคุณสำหรับเรียก GitHub API (อ่านข้อมูลได้ครบกว่า)
           token: ${{ secrets.METRICS_TOKEN }}
+
+          # ใช้ GITHUB_TOKEN ของ workflow สำหรับ commit/push ไฟล์กลับเข้าที่ repo
+          # (คีย์ที่ถูกต้องคือ committer_token)
+          committer_token: ${{ secrets.GITHUB_TOKEN }}
 
           # Options
           template: classic
